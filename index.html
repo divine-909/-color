@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split Poster Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=Cormorant+Garamond:wght@400;500;600&family=Cormorant+Infant:wght@400;500;600&family=DM+Serif+Display:ital@0;1&family=LXGW+WenKai+TC:wght@400;700&family=Long+Cang&family=Manrope:wght@400;500;600;700&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=ZCOOL+KuaiLe&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Poster Atelier</p>
+      <details class="hero-info">
+        <summary>项目说明</summary>
+        <div class="hero-info-panel">
+          <h1>把照片做成带留白与诗意的中文海报</h1>
+          <p class="hero-copy">手机上先看作品，再从底部面板里切换比例、颜色、模板与字体。配色默认根据图片自动生成上下渐变。</p>
+        </div>
+      </details>
+    </header>
+
+    <main class="workspace">
+      <section class="controls-panel" aria-label="编辑控件">
+        <div class="panel-handle-wrap">
+          <button type="button" class="panel-handle" id="editorToggle" aria-expanded="false" aria-controls="editorBody">
+            编辑面板
+          </button>
+        </div>
+
+        <div class="editor-body" id="editorBody">
+          <div class="panel-branch-nav" id="panelBranchNav">
+            <button type="button" class="branch-card is-active" data-branch="background">
+              <strong>背景编辑</strong>
+              <span>图片、模式、主色</span>
+            </button>
+            <button type="button" class="branch-card" data-branch="text">
+              <strong>文字选择</strong>
+              <span>模板、字体、字号、颜色</span>
+            </button>
+            <button type="button" class="branch-card" data-branch="ratio">
+              <strong>画幅比例</strong>
+              <span>导出比例与画面方向</span>
+            </button>
+          </div>
+
+          <section class="panel-section is-active" data-branch-panel="background">
+            <div class="drawer-topbar">
+              <button type="button" class="drawer-back" data-close-drawer>返回</button>
+              <span>背景编辑</span>
+            </div>
+            <div class="section-header">
+              <h2>背景编辑</h2>
+              <p>上传图片，选择背景模式与图片主色。</p>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">上传图片</span>
+              <label class="upload-card" for="imageUpload">
+                <span class="upload-icon" aria-hidden="true">
+                  <svg viewBox="0 0 64 64" role="img">
+                    <path d="M17 45.5h30c4.971 0 9-4.029 9-9 0-4.705-3.61-8.567-8.213-8.966C46.862 19.842 40.072 14 32 14c-8.17 0-15.024 5.987-16.005 13.821C10.87 28.417 7 32.712 7 37.75c0 4.28 3.47 7.75 7.75 7.75H17Z" />
+                    <path d="M32 23v18" />
+                    <path d="m25.5 29.5 6.5-6.5 6.5 6.5" />
+                  </svg>
+                </span>
+                <span class="upload-copy">
+                  <strong>选择照片</strong>
+                  <span>支持手机相册与本地图片，上传后自动提取主色</span>
+                </span>
+              </label>
+              <input id="imageUpload" class="visually-hidden" type="file" accept="image/*">
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">背景模式</span>
+              <div class="segmented" id="backgroundMode">
+                <button type="button" data-mode="solid">纯色</button>
+                <button type="button" class="is-active" data-mode="gradient">渐变</button>
+              </div>
+              <p class="hint" id="gradientHint">上传图片后会自动用前两个主色生成上下渐变。</p>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="textureSelect">背景纹理</label>
+              <select id="textureSelect">
+                <option value="none">无纹理</option>
+                <option value="grain">细颗粒</option>
+                <option value="paper">纸感纤维</option>
+                <option value="grid">细网格</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="textureIntensityInput">纹理强度</label>
+              <div class="range-row">
+                <input id="textureIntensityInput" type="range" min="0" max="100" step="1" value="18">
+                <span class="range-value" id="textureIntensityValue">18%</span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <div class="palette-header">
+                <span class="control-label">图片颜色</span>
+                <button type="button" class="ghost-button" id="eyedropperBtn">吸管</button>
+              </div>
+              <div class="palette-bar" id="paletteBar" aria-live="polite"></div>
+            </div>
+
+            <div class="control-group">
+              <div class="palette-header">
+                <span class="control-label">波点拼贴</span>
+                <button type="button" class="ghost-button" id="particleToggleBtn">开启</button>
+              </div>
+              <div class="field-stack particle-controls">
+                <div class="field-group">
+                  <div class="palette-header compact-header">
+                    <span class="field-label">拼贴颜色</span>
+                  </div>
+                  <div class="palette-bar text-palette" id="particleColorBar" aria-live="polite"></div>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="particleShapeSelect">形状</label>
+                  <select id="particleShapeSelect">
+                    <option value="circle">圆点</option>
+                    <option value="star">星星</option>
+                    <option value="heart">爱心</option>
+                    <option value="diamond">菱形</option>
+                    <option value="raindrop">雨滴</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="particleCountInput">数量</label>
+                  <div class="range-row">
+                    <input id="particleCountInput" type="range" min="6" max="60" step="1" value="18">
+                    <span class="range-value" id="particleCountValue">18</span>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="particleSizeInput">大小</label>
+                  <div class="range-row">
+                    <input id="particleSizeInput" type="range" min="10" max="80" step="1" value="26">
+                    <span class="range-value" id="particleSizeValue">26px</span>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="particleVariationInput">差异</label>
+                  <div class="range-row">
+                    <input id="particleVariationInput" type="range" min="0" max="100" step="1" value="36">
+                    <span class="range-value" id="particleVariationValue">36%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-section" data-branch-panel="text">
+            <div class="drawer-topbar">
+              <button type="button" class="drawer-back" data-close-drawer>返回</button>
+              <span>文字选择</span>
+            </div>
+            <div class="section-header">
+              <h2>文字选择</h2>
+              <p>编辑内容、字体、字号与文字颜色。</p>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">文案模板</span>
+              <div class="template-grid" id="templateSelector">
+                <button type="button" class="is-active" data-template="time">Time/Loc</button>
+                <button type="button" data-template="poetry">Poetry</button>
+                <button type="button" data-template="free">自由文字</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="fontSelect">中文字体</label>
+              <select id="fontSelect">
+                <option value="editorial-serif">杂志衬线</option>
+                <option value="song">古雅宋体</option>
+                <option value="wensong">文楷宋意</option>
+                <option value="cute-hand">可爱手写</option>
+                <option value="playful-hand">童趣标题</option>
+                <option value="wild-hand">飞白手写</option>
+                <option value="slender-ink">瘦长书写</option>
+                <option value="minimal-sans">极简黑体</option>
+                <option value="english-fashion">English Fashion</option>
+                <option value="english-serif">English Serif</option>
+                <option value="english-italic">English Italic</option>
+                <option value="english-classic">English Classic</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">文字内容</span>
+              <div class="field-stack" id="textEditorFields">
+                <div class="field-group" data-fields="time">
+                  <label class="field-label" for="locationInput">地点</label>
+                  <input id="locationInput" type="text" value="杭州">
+                </div>
+                <div class="field-group" data-fields="time">
+                  <label class="field-label" for="timeInput">时间</label>
+                  <input id="timeInput" type="text" value="00:00">
+                </div>
+                <div class="field-group is-hidden" data-fields="poetry">
+                  <label class="field-label" for="poetryInput">诗句</label>
+                  <textarea id="poetryInput" rows="4">云慢慢走过
+光停在黄昏之前</textarea>
+                </div>
+                <div class="field-group is-hidden" data-fields="free">
+                  <label class="field-label" for="freeTextInput">自由文字</label>
+                  <textarea id="freeTextInput" rows="6" placeholder="输入多行文字，直接回车换行">把想说的话留在颜色之间</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="fontSizeInput">字体大小</label>
+              <div class="range-row">
+                <input id="fontSizeInput" type="range" min="24" max="120" step="1" value="52">
+                <span class="range-value" id="fontSizeValue">52px</span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <div class="palette-header">
+                <span class="control-label">文字颜色</span>
+                <button type="button" class="ghost-button" id="resetTextColorBtn">恢复自动</button>
+              </div>
+              <div class="palette-bar text-palette" id="textColorBar" aria-live="polite"></div>
+            </div>
+
+            <div class="control-group">
+              <div class="inline-actions">
+                <button type="button" id="downloadBtn">下载 PNG</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-section" data-branch-panel="ratio">
+            <div class="drawer-topbar">
+              <button type="button" class="drawer-back" data-close-drawer>返回</button>
+              <span>画幅比例</span>
+            </div>
+            <div class="section-header">
+              <h2>画幅比例</h2>
+              <p>最后确认导出比例。</p>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">画幅比例</span>
+              <div class="ratio-grid" id="ratioSelector">
+                <button type="button" class="is-active" data-aspect="3 / 4">3:4</button>
+                <button type="button" data-aspect="1 / 1">1:1</button>
+                <button type="button" data-aspect="4 / 5">4:5</button>
+                <button type="button" data-aspect="16 / 9">16:9</button>
+                <button type="button" data-aspect="9 / 16">9:16</button>
+                <button type="button" data-aspect="2 / 3">2:3</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="preview-panel">
+        <div class="preview-actions">
+          <button type="button" class="export-fab" id="previewDownloadBtn">导出图片</button>
+        </div>
+        <div class="poster-frame ratio-3-4" id="posterFrame">
+          <div class="poster-half text-half" id="textHalf">
+            <div class="texture-overlay texture-none" id="textureOverlay"></div>
+            <div class="text-layer font-editorial-serif" id="textLayer">
+              <section class="template template-time is-visible" data-template-panel="time">
+                <div class="meta-line">
+                  <span id="locationText">杭州</span>
+                  <span class="divider">·</span>
+                  <span id="timeText">00:00</span>
+                </div>
+              </section>
+
+              <section class="template template-poetry" data-template-panel="poetry">
+                <div
+                  class="poetry-editor"
+                  id="poetryText"
+                >云慢慢走过
+光停在黄昏之前</div>
+              </section>
+
+              <section class="template template-free" data-template-panel="free">
+                <div class="free-editor" id="freeText">把想说的话留在颜色之间</div>
+              </section>
+            </div>
+          </div>
+
+          <div class="poster-half image-half" id="imageHalf">
+            <div class="image-stage" id="imageStage">
+              <img id="posterImage" alt="已上传图片预览">
+              <div class="particle-layer" id="particleLayer" aria-hidden="true"></div>
+              <div class="image-placeholder" id="imagePlaceholder">
+                <p>Upload an image</p>
+                <span>拖拽移动，滚轮或双指缩放</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.6.0/color-thief.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -138,6 +138,10 @@ body::before {
   display: none;
 }
 
+.mobile-quickbar {
+  display: none;
+}
+
 .editor-body {
   display: block;
 }
@@ -310,7 +314,7 @@ button:hover {
 }
 
 .segmented {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .ratio-grid {
@@ -541,6 +545,10 @@ input[type="range"] {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 12px;
+}
+
+.desktop-only {
+  display: inline-flex;
 }
 
 .export-fab {
@@ -829,44 +837,104 @@ input[type="range"] {
   }
 
   .page-shell {
-    padding: 16px 12px 120px;
+    padding: 8px 8px 8px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero {
+    margin-bottom: 8px;
+  }
+
+  .eyebrow {
+    margin-bottom: 4px;
+    font-size: 0.65rem;
   }
 
   .hero h1 {
-    font-size: clamp(2.1rem, 11vw, 3.2rem);
+    font-size: 1.4rem;
   }
 
   .hero-copy {
-    font-size: 0.94rem;
+    display: none;
   }
 
   .hero-info summary {
-    padding: 9px 14px;
-    font-size: 0.88rem;
+    padding: 6px 10px;
+    font-size: 0.78rem;
   }
 
   .workspace {
-    gap: 12px;
+    gap: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
 
   .preview-panel {
-    padding: 12px;
+    padding: 8px;
+    min-height: 0;
+    flex: 0 0 auto;
   }
 
   .preview-actions {
-    position: sticky;
-    top: 8px;
-    z-index: 4;
-    margin-bottom: 10px;
+    display: none;
+  }
+
+  .mobile-quickbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .quick-upload-button,
+  .quick-preview-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(22, 22, 22, 0.12);
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--ink);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .quick-preview-button {
+    cursor: pointer;
   }
 
   .template-grid,
   .inline-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .panel-branch-nav {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .branch-card {
+    flex: 0 0 auto;
+    min-width: 100px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .branch-card strong {
+    font-size: 0.82rem;
+  }
+
+  .branch-card span {
+    font-size: 0.7rem;
   }
 
   .ratio-grid {
@@ -877,64 +945,88 @@ input[type="range"] {
     padding: 0;
   }
 
+  .poster-frame {
+    width: 50vw;
+    max-width: 200px;
+    margin: 0 auto;
+    border-radius: 16px;
+  }
+
   .template {
-    inset: 20px;
-    height: calc(100% - 40px);
+    inset: 12px;
+    height: calc(100% - 24px);
+  }
+
+  .meta-line {
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
   }
 
   .poetry-editor {
     max-width: 92%;
+    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
   }
 
   .free-editor {
     max-width: 88%;
-    line-height: 1.42;
+    font-size: clamp(0.8rem, 2.2vw, 1rem);
+    line-height: 1.32;
   }
 
   .controls-panel {
-    position: fixed;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    z-index: 30;
-    padding: 12px 12px 16px;
-    border-radius: 28px;
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+    padding: 8px;
+    border-radius: 16px;
     background: rgba(255, 249, 241, 0.94);
-    box-shadow: 0 18px 40px rgba(24, 16, 12, 0.2);
+    box-shadow: 0 12px 28px rgba(24, 16, 12, 0.15);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .panel-handle-wrap {
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .panel-handle {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: #161616;
-    color: #faf7f1;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    display: none;
   }
 
   .editor-body {
-    max-height: 58vh;
-    overflow: auto;
-    padding-top: 4px;
-    transition: max-height 220ms ease, opacity 220ms ease;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 0;
+    transition: none;
   }
 
   .controls-panel.is-collapsed .editor-body {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    padding-top: 0;
+    overflow: auto;
   }
 
   .panel-section {
-    padding: 14px;
-    border-radius: 20px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .section-header {
+    margin-bottom: 8px;
+  }
+
+  .section-header h2 {
+    font-size: 0.88rem;
+  }
+
+  .section-header p {
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+
+  .control-group + .control-group {
+    margin-top: 10px;
+  }
+
+  .control-label {
+    margin-bottom: 6px;
+    font-size: 0.72rem;
   }
 
   .drawer-topbar {
@@ -943,21 +1035,122 @@ input[type="range"] {
     z-index: 2;
     background: rgba(255, 250, 243, 0.92);
     backdrop-filter: blur(12px);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+  }
+
+  .drawer-topbar span {
+    font-size: 0.82rem;
+  }
+
+  .drawer-back {
+    padding: 6px 10px;
+    font-size: 0.76rem;
   }
 
   .upload-card {
-    grid-template-columns: 48px 1fr;
-    padding: 14px;
-    border-radius: 20px;
+    grid-template-columns: 40px 1fr;
+    padding: 10px;
+    border-radius: 14px;
+    gap: 10px;
   }
 
   .upload-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .upload-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .upload-copy strong {
+    font-size: 0.88rem;
+  }
+
+  .upload-copy span {
+    font-size: 0.76rem;
   }
 
   .palette-bar {
-    padding-bottom: 6px;
+    padding-bottom: 4px;
+    gap: 8px;
+  }
+
+  .palette-swatch {
+    width: 32px;
+    height: 32px;
+  }
+
+  .text-palette .palette-swatch {
+    width: 28px;
+    height: 28px;
+  }
+
+  .segmented button,
+  .ratio-grid button,
+  .template-grid button {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    border-radius: 10px;
+  }
+
+  .ratio-grid button {
+    padding: 6px 8px;
+    font-size: 0.74rem;
+  }
+
+  input[type="text"],
+  textarea,
+  select {
+    padding: 8px 10px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+  }
+
+  textarea {
+    min-height: 80px;
+  }
+
+  .hint {
+    font-size: 0.74rem;
+    margin-top: 6px;
+  }
+
+  .ghost-button {
+    padding: 5px 10px;
+    font-size: 0.74rem;
+  }
+
+  .range-row {
+    gap: 8px;
+  }
+
+  .range-value {
+    font-size: 0.78rem;
+    min-width: 44px;
+  }
+
+  .field-stack {
+    gap: 8px;
+  }
+
+  .particle-controls {
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .field-group {
+    gap: 4px;
+  }
+
+  .field-label {
+    font-size: 0.72rem;
+  }
+
+  .palette-header {
+    margin-bottom: 6px;
   }
 }

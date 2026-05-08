@@ -4,6 +4,7 @@ const state = {
   gradientSelection: [],
   currentTemplate: "time",
   currentFont: "editorial-serif",
+  timeLanguage: "zh",
   textColor: "#161616",
   textColorMode: "auto",
   activeImageColor: "",
@@ -20,9 +21,9 @@ const state = {
     color: "#161616"
   },
   fontSizes: {
-    time: 60,
-    poetry: 42,
-    free: 36
+    time: 24,
+    poetry: 18,
+    free: 16
   },
   transform: {
     x: 0,
@@ -53,6 +54,7 @@ const elements = {
   backgroundMode: document.querySelector("#backgroundMode"),
   gradientHint: document.querySelector("#gradientHint"),
   templateSelector: document.querySelector("#templateSelector"),
+  timeLanguageSelector: document.querySelector("#timeLanguageSelector"),
   ratioSelector: document.querySelector("#ratioSelector"),
   fontSelect: document.querySelector("#fontSelect"),
   textureSelect: document.querySelector("#textureSelect"),
@@ -73,6 +75,7 @@ const elements = {
   resetTextColorBtn: document.querySelector("#resetTextColorBtn"),
   downloadBtn: document.querySelector("#downloadBtn"),
   previewDownloadBtn: document.querySelector("#previewDownloadBtn"),
+  desktopPreviewDownloadBtn: document.querySelector("#desktopPreviewDownloadBtn"),
   textColorBar: document.querySelector("#textColorBar"),
   locationInput: document.querySelector("#locationInput"),
   timeInput: document.querySelector("#timeInput"),
@@ -112,6 +115,7 @@ function bindEvents() {
   elements.imageUpload.addEventListener("change", handleImageUpload);
   elements.backgroundMode.addEventListener("click", handleBackgroundModeChange);
   elements.templateSelector.addEventListener("click", handleTemplateChange);
+  elements.timeLanguageSelector.addEventListener("click", handleTimeLanguageChange);
   elements.ratioSelector.addEventListener("click", handleRatioChange);
   elements.fontSelect.addEventListener("change", handleFontChange);
   elements.textureSelect.addEventListener("change", handleTextureChange);
@@ -126,6 +130,7 @@ function bindEvents() {
   elements.resetTextColorBtn.addEventListener("click", handleResetTextColor);
   elements.downloadBtn.addEventListener("click", downloadPoster);
   elements.previewDownloadBtn.addEventListener("click", downloadPoster);
+  elements.desktopPreviewDownloadBtn.addEventListener("click", downloadPoster);
   elements.paletteBar.addEventListener("click", handlePaletteClick);
   elements.textColorBar.addEventListener("click", handleTextColorClick);
   elements.particleColorBar.addEventListener("click", handleParticleColorClick);
@@ -272,6 +277,18 @@ function handleTemplateChange(event) {
   });
   updateTemplateEditorVisibility();
   applyTextStyles();
+}
+
+function handleTimeLanguageChange(event) {
+  const button = event.target.closest("button[data-language]");
+
+  if (!button) {
+    return;
+  }
+
+  state.timeLanguage = button.dataset.language;
+  setActiveButton(elements.timeLanguageSelector, button, "[data-language]");
+  syncTextInputs();
 }
 
 function handleRatioChange(event) {
@@ -462,7 +479,8 @@ function updateGradientHint() {
 }
 
 function syncTextInputs() {
-  elements.locationText.textContent = elements.locationInput.value || "未命名地点";
+  const rawLocation = elements.locationInput.value || "未命名地点";
+  elements.locationText.textContent = formatLocationByLanguage(rawLocation, state.timeLanguage);
   elements.timeText.textContent = elements.timeInput.value || "00:00";
   elements.poetryText.textContent = elements.poetryInput.value || "请输入诗句";
   elements.freeText.textContent = elements.freeTextInput.value || "请输入文字";
@@ -540,6 +558,28 @@ function applyTextStyles() {
   elements.locationText.parentElement.style.fontSize = `${state.fontSizes.time}px`;
   elements.poetryText.style.fontSize = `${state.fontSizes.poetry}px`;
   elements.freeText.style.fontSize = `${state.fontSizes.free}px`;
+}
+
+function formatLocationByLanguage(value, language) {
+  const presets = {
+    zh: {
+      "杭州": "杭州",
+      "上海": "上海",
+      "北京": "北京"
+    },
+    en: {
+      "杭州": "Hangzhou",
+      "上海": "Shanghai",
+      "北京": "Beijing"
+    },
+    pinyin: {
+      "杭州": "Hangzhou",
+      "上海": "Shanghai",
+      "北京": "Beijing"
+    }
+  };
+
+  return presets[language]?.[value] || value;
 }
 
 function applyTexture() {

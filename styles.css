@@ -815,6 +815,11 @@ input[type="range"] {
   opacity: 0.74;
 }
 
+/* 浮动快捷按钮 - 默认隐藏 */
+.floating-actions {
+  display: none;
+}
+
 @media (max-width: 960px) {
   .workspace {
     grid-template-columns: 1fr;
@@ -837,32 +842,31 @@ input[type="range"] {
   }
 
   .page-shell {
-    padding: 8px 8px 8px;
+    padding: 8px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
 
   .hero {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .eyebrow {
-    margin-bottom: 4px;
-    font-size: 0.65rem;
+    margin-bottom: 2px;
+    font-size: 0.6rem;
   }
 
   .hero h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .hero-copy {
     display: none;
   }
 
-  .hero-info summary {
-    padding: 6px 10px;
-    font-size: 0.78rem;
+  .hero-info {
+    display: none;
   }
 
   .workspace {
@@ -874,9 +878,13 @@ input[type="range"] {
   }
 
   .preview-panel {
-    padding: 8px;
+    padding: 12px;
     min-height: 0;
-    flex: 0 0 auto;
+    flex: 0 0 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .preview-actions {
@@ -884,30 +892,7 @@ input[type="range"] {
   }
 
   .mobile-quickbar {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-    margin-bottom: 6px;
-  }
-
-  .quick-upload-button,
-  .quick-preview-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 36px;
-    padding: 8px 10px;
-    border-radius: 12px;
-    border: 1px solid rgba(22, 22, 22, 0.12);
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--ink);
-    font-size: 0.82rem;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .quick-preview-button {
-    cursor: pointer;
+    display: none;
   }
 
   .template-grid,
@@ -924,17 +909,17 @@ input[type="range"] {
 
   .branch-card {
     flex: 0 0 auto;
-    min-width: 100px;
-    padding: 10px 12px;
-    border-radius: 14px;
+    min-width: 90px;
+    padding: 8px 10px;
+    border-radius: 12px;
   }
 
   .branch-card strong {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
   }
 
   .branch-card span {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 
   .ratio-grid {
@@ -946,30 +931,32 @@ input[type="range"] {
   }
 
   .poster-frame {
-    width: 50vw;
-    max-width: 200px;
+    width: auto;
+    height: 100%;
+    max-height: 42vh;
+    aspect-ratio: var(--poster-ratio);
     margin: 0 auto;
-    border-radius: 16px;
+    border-radius: 14px;
   }
 
   .template {
-    inset: 12px;
-    height: calc(100% - 24px);
+    inset: 10px;
+    height: calc(100% - 20px);
   }
 
   .meta-line {
-    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    font-size: clamp(0.85rem, 2.8vw, 1.1rem);
   }
 
   .poetry-editor {
     max-width: 92%;
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+    font-size: clamp(0.8rem, 2.2vw, 1rem);
   }
 
   .free-editor {
     max-width: 88%;
-    font-size: clamp(0.8rem, 2.2vw, 1rem);
-    line-height: 1.32;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    line-height: 1.28;
   }
 
   .controls-panel {
@@ -977,10 +964,10 @@ input[type="range"] {
     z-index: 1;
     min-height: 0;
     padding: 8px;
-    border-radius: 16px;
+    border-radius: 14px;
     background: rgba(255, 249, 241, 0.94);
     box-shadow: 0 12px 28px rgba(24, 16, 12, 0.15);
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -1004,29 +991,29 @@ input[type="range"] {
 
   .panel-section {
     padding: 10px;
-    border-radius: 14px;
+    border-radius: 12px;
   }
 
   .section-header {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .section-header h2 {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
   }
 
   .section-header p {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     margin-top: 2px;
   }
 
   .control-group + .control-group {
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .control-label {
-    margin-bottom: 6px;
-    font-size: 0.72rem;
+    margin-bottom: 5px;
+    font-size: 0.7rem;
   }
 
   .drawer-topbar {
@@ -1035,122 +1022,160 @@ input[type="range"] {
     z-index: 2;
     background: rgba(255, 250, 243, 0.92);
     backdrop-filter: blur(12px);
-    margin-bottom: 8px;
-    padding-bottom: 8px;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
   }
 
   .drawer-topbar span {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
   }
 
   .drawer-back {
-    padding: 6px 10px;
-    font-size: 0.76rem;
+    padding: 5px 8px;
+    font-size: 0.72rem;
   }
 
   .upload-card {
-    grid-template-columns: 40px 1fr;
-    padding: 10px;
-    border-radius: 14px;
-    gap: 10px;
-  }
-
-  .upload-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-  }
-
-  .upload-icon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .upload-copy strong {
-    font-size: 0.88rem;
-  }
-
-  .upload-copy span {
-    font-size: 0.76rem;
+    display: none;
   }
 
   .palette-bar {
     padding-bottom: 4px;
-    gap: 8px;
+    gap: 6px;
   }
 
   .palette-swatch {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
 
   .text-palette .palette-swatch {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
 
   .segmented button,
   .ratio-grid button,
   .template-grid button {
-    padding: 8px 10px;
-    font-size: 0.78rem;
-    border-radius: 10px;
+    padding: 6px 8px;
+    font-size: 0.72rem;
+    border-radius: 8px;
   }
 
   .ratio-grid button {
-    padding: 6px 8px;
-    font-size: 0.74rem;
+    padding: 5px 6px;
+    font-size: 0.7rem;
   }
 
   input[type="text"],
   textarea,
   select {
-    padding: 8px 10px;
-    border-radius: 12px;
-    font-size: 0.88rem;
+    padding: 6px 8px;
+    border-radius: 10px;
+    font-size: 0.82rem;
   }
 
   textarea {
-    min-height: 80px;
+    min-height: 60px;
   }
 
   .hint {
-    font-size: 0.74rem;
-    margin-top: 6px;
+    font-size: 0.7rem;
+    margin-top: 4px;
   }
 
   .ghost-button {
-    padding: 5px 10px;
-    font-size: 0.74rem;
+    padding: 4px 8px;
+    font-size: 0.7rem;
   }
 
   .range-row {
-    gap: 8px;
+    gap: 6px;
   }
 
   .range-value {
-    font-size: 0.78rem;
-    min-width: 44px;
+    font-size: 0.72rem;
+    min-width: 40px;
   }
 
   .field-stack {
-    gap: 8px;
+    gap: 6px;
   }
 
   .particle-controls {
-    padding: 8px;
-    border-radius: 12px;
+    padding: 6px;
+    border-radius: 10px;
   }
 
   .field-group {
-    gap: 4px;
+    gap: 3px;
   }
 
   .field-label {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
   }
 
   .palette-header {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+  }
+
+  /* 浮动快捷按钮 */
+  .floating-actions {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+
+  .floating-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .floating-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .floating-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .floating-upload {
+    background: #161616;
+    color: #fff;
+  }
+
+  .floating-upload svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .floating-export {
+    background: #d85c3d;
+    color: #fff;
+  }
+
+  .floating-export svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 }

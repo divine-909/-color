@@ -322,6 +322,25 @@
     </main>
   </div>
 
+  <!-- 手机端浮动按钮 -->
+  <div class="floating-actions">
+    <label class="floating-btn floating-upload" for="imageUploadMobile" title="上传照片">
+      <svg viewBox="0 0 24 24" role="img">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+    </label>
+    <input id="imageUploadMobile" class="visually-hidden" type="file" accept="image/*">
+    <button type="button" class="floating-btn floating-export" id="floatingExportBtn" title="导出图片">
+      <svg viewBox="0 0 24 24" role="img">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+    </button>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.6.0/color-thief.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="./script.js"></script>

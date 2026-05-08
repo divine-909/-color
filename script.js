@@ -42,6 +42,7 @@ const elements = {
   editorBody: document.querySelector("#editorBody"),
   panelBranchNav: document.querySelector("#panelBranchNav"),
   imageUpload: document.querySelector("#imageUpload"),
+  imageUploadMobile: document.querySelector("#imageUploadMobile"),
   posterFrame: document.querySelector("#posterFrame"),
   textHalf: document.querySelector("#textHalf"),
   textureOverlay: document.querySelector("#textureOverlay"),
@@ -76,6 +77,7 @@ const elements = {
   downloadBtn: document.querySelector("#downloadBtn"),
   previewDownloadBtn: document.querySelector("#previewDownloadBtn"),
   desktopPreviewDownloadBtn: document.querySelector("#desktopPreviewDownloadBtn"),
+  floatingExportBtn: document.querySelector("#floatingExportBtn"),
   textColorBar: document.querySelector("#textColorBar"),
   locationInput: document.querySelector("#locationInput"),
   timeInput: document.querySelector("#timeInput"),
@@ -113,6 +115,9 @@ function bindEvents() {
   elements.panelBranchNav.addEventListener("click", handleBranchChange);
   elements.editorBody.addEventListener("click", handleDrawerClose);
   elements.imageUpload.addEventListener("change", handleImageUpload);
+  if (elements.imageUploadMobile) {
+    elements.imageUploadMobile.addEventListener("change", handleImageUpload);
+  }
   elements.backgroundMode.addEventListener("click", handleBackgroundModeChange);
   elements.templateSelector.addEventListener("click", handleTemplateChange);
   elements.timeLanguageSelector.addEventListener("click", handleTimeLanguageChange);
@@ -131,6 +136,9 @@ function bindEvents() {
   elements.downloadBtn.addEventListener("click", downloadPoster);
   elements.previewDownloadBtn.addEventListener("click", downloadPoster);
   elements.desktopPreviewDownloadBtn.addEventListener("click", downloadPoster);
+  if (elements.floatingExportBtn) {
+    elements.floatingExportBtn.addEventListener("click", downloadPoster);
+  }
   elements.paletteBar.addEventListener("click", handlePaletteClick);
   elements.textColorBar.addEventListener("click", handleTextColorClick);
   elements.particleColorBar.addEventListener("click", handleParticleColorClick);
